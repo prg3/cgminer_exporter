@@ -1,11 +1,32 @@
-# cgminer_exporter
-Prometheus exporter for Cgminer (specifically Antminers)
+# Prometheus exporter for Cgminer (specifically Antminers)
+
+## Installation
+
+Just execute the python script. Ensure that you have Python-Tornado installed
+
+## Usage
+
+./cgminer_exporter.py
+
+## Configuration
+
+There is no configuration required
+
+Service runs on port 9154
+
+Testing can be done by loading /metrics?target=192.168.0.21
+
+example:
+
+curl hlocalhost:9154:/metrics?target=192.168.0.21
+
+## Prometheus configuration
 
 Configuration Example
 
-Setup the targets array with your miners, and set the replacement line to the host running the exporter
+Setup the targets array with your miners, and set the replacement line to the host running the exporter:
 
-'''YAML
+```YAML
 - job_name: 'antminer'
     scrape_interval: 2s
     static_configs:
@@ -18,4 +39,12 @@ Setup the targets array with your miners, and set the replacement line to the ho
         target_label: instance
       - target_label: __address__
         replacement: 192.168.0.190:9154
-'''
+```
+
+This setup allows Prometheus to provide scheduling and service discovery, as
+unlike all other exporters running an exporter on the machine from which we are
+getting the metrics from is not possible.
+
+## Docker
+
+A Docker container has been built and is available at Dockerhub: majestik/cgminer_exporter
