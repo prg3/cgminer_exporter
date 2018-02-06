@@ -179,7 +179,7 @@ def main():
 		(r"/metrics", MetricsHandler)
 
 	])
-	http_server = tornado.httpserver.HTTPServer(application)
+	http_server = tornado.httpserver.HTTPServer(application, idle_connection_timeout=2)
 	http_server.listen(9154)
 	tornado.ioloop.IOLoop.current().start()
 
