@@ -14,6 +14,7 @@
 #E.G "pga|0"
 
 import socket
+import os
 import json
 import sys
 import pprint
@@ -26,6 +27,12 @@ pp = pprint.PrettyPrinter(indent=4)
 
 
 statusdata = {}
+
+if os.environ.get('THREADS'):
+	threads = int(os.environ['THREADS'])
+else:
+	threads = 0
+	
 
 def linesplit(socket):
 	buffer = socket.recv(4096)
@@ -181,7 +188,8 @@ def main():
 
 	])
 	http_server = tornado.httpserver.HTTPServer(application, idle_connection_timeout=2)
-	http_server.listen(9154)
+	http_server.bind(9154)
+	http_server.start(threads)
 	tornado.ioloop.IOLoop.current().start()
 
 if __name__ == "__main__":

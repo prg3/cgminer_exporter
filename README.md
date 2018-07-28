@@ -10,7 +10,8 @@ Just execute the python script. Ensure that you have Python-Tornado installed
 
 ## Configuration
 
-There is no configuration required
+You can define an environment variable to specify the number of threads:
+  export THREADS=5
 
 Service runs on port 9154
 
