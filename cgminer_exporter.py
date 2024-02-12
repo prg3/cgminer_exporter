@@ -164,8 +164,13 @@ def metric_stats(data, tags):
     for entry in statdata:
         if "temp" in entry:
             tempnum = entry.replace("temp", "")
+            res = statdata[f"temp{tempnum}"]
+            if isinstance(res, str) and "-" in res:
+                # some values like temp_in_pcb_1 are "35-36" - report only the first sensor
+                # alternatively we'd have to split them into multiple lines
+                res = res.split("-")[0]
             lines.append(
-                f'cgminer_stats_temp{{temp="{tempnum}",{localtags}}} {statdata[f"temp{tempnum}"]}'
+                f'cgminer_stats_temp{{temp="{tempnum}",{localtags}}} {res}'
             )
         if "chain_hw" in entry:
             chainnum = entry.replace("chain_hw", "")
